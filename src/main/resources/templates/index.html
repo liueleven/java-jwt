@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>测试jwt</title>
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.1.3/css/bootstrap-grid.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+<div style="text-align: center;color: red">
+    使用java-jwt测试登录，生成加密token保存在header中，客户端每次请求都把header中的token带上
+    使用redis来保证token的失效时间
+</div>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <form>
+            <input value="liueleven" id="name"><br>
+
+            <input value="qwer" id="passwd"> <br>
+            <input type="button" value="登录" onclick="login()">
+        </form>
+    </div>
+    <hr>
+    <div id="info">
+        token:
+    </div>
+    <hr>
+    <div id="verify">
+        <input value="验证token并获取用户信息" type="button">
+    </div>
+    <hr>
+    <div id="invalidate">
+        <input value="token失效" type="button">
+    </div>
+</div>
+
+</body>
+</html>
+<script>
+   var login = function () {
+       var data = {
+           name:$("#name").val(),
+           passwd:$("#passwd").val()
+       }
+       $.ajax({
+           url:"/user/login",
+           type:"POST",
+           data:JSON.stringify(data),
+           contentType:"application/json",  //缺失会出现URL编码，无法转成json对象
+           success:function(res){
+               $("#info").append('<input id="token" value="'+res+'">')
+           }
+       });
+   }
+   $("#verify").click(function () {
+       $.ajax({
+           url:"/user/verify",
+           type:"get",
+           headers: {"auth":$("#token").val()},
+           success:function(res){
+               $("#verify").append("用户信息：")
+               $("#verify").append(JSON.stringify(res))
+           }
+       });
+   })
+   $("#invalidate").click(function () {
+       $.ajax({
+           url:"/user/invalidate?token="+$("#token").val(),
+           type:"get",
+           success:function(res){
+               alert(res)
+           }
+       });
+   })
+</script>

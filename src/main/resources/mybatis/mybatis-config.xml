@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--根据官网配置 http://www.mybatis.org/mybatis-3/zh/configuration.html#settings -->
+    <settings>
+        <!--配置缓存-->
+        <setting name="cacheEnabled" value="false"/>
+        <!--开启驼峰转换-->
+        <setting name="mapUnderscoreToCamelCase" value="true"></setting>
+        <!--自动生成主键-->
+        <setting name="useGeneratedKeys" value="true"></setting>
+        <!--配置Executor的执行类型-->
+        <setting name="defaultExecutorType" value="REUSE"></setting>
+        <!--事物,单位秒-->
+        <setting name="defaultStatementTimeout" value="600"></setting>
+    </settings>
+
+    <!--全局别名配置-->
+    <typeAliases>
+        <typeAlias type="cn.liueleven.jwt.model.User" alias="user"></typeAlias>
+    </typeAliases>
+
+    <!--引入mapper-->
+    <mappers>
+        <mapper resource="mapper/user.xml" />
+    </mappers>
+</configuration>

@@ -1,0 +1,14 @@
+-- 用户表
+create table `user`(
+	`id` bigint(20) unsigned not null auto_increment comment '主键id',
+	`name` varchar(20)  not null default '' comment '姓名',
+	`phone` char(13)  not null default '' comment '手机号',
+	`email` varchar(90)  not null  comment '电子邮件',
+	`aboutme` varchar(250)  not null default '' comment '自我介绍',
+	`passwd` varchar(512)  not null default '' comment 'MD5加密的密码',
+	`avatar` varchar(512)  not null default '' comment '头像图片',
+	`create_time` date not null comment '创建时间',
+	`enable` tinyint(1)  not null  comment '是否启用1:启用，2:不启用',
+	Primary key (`id`),
+    UNIQUE key `idx_email1` (`email`)
+)ENGINE=INNODB auto_increment=25 DEFAULT CHARSET=utf8
